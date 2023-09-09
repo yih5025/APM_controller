@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PM controller</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        .wrapper {
+            display: block;
+            position: relative;
+            background-color: #fff;
+        }
+        .header {
+            width: 980px;
+            margin: 0 auto;
+        }
+        .header-content {
+            font-size: 32px;
+            text-align: center;
+            font-weight: 700;
+            padding: 30px 0 24px 0;
+        }
+        .pm-container {
+            background-color: #f8f8f8;
+        }
+        .pm-content {
+            width: 980px;
+            margin: 0 auto;
+            padding: 26px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .form-pm {
+            display: inline-block;
+            padding: 0 40px;
+        }
+        .bottom-container {
+            width: 980px;
+            padding: 40px 0;
+            margin: 0 auto;
+        }
+        .bottom-form {
+            text-align: center;
+        }
+        .bottom-input {
+            width: 240px;
+            height: 60px;
+            font-size: 22px;
+            margin: 0px -6px 0 0;
+            padding: 10px 5px;
+            border: 2px solid #000;
+            font-weight: 700;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+        .bottom-button {
+            width: 60px;
+            height: 60px;
+            font-size: 22px;
+            border: 2px solid #000;
+        }
+        .execution-result {
+            background-color: #f8f8f8;
+        }
+        .excution-container {
+            width: 1200px;
+            height: 240px;
+            margin: 0 auto;
+            padding: 30px 0;
+            font-weight: 700;
+        }
+        .apm-text {
+            font-size: 32px;
+            text-align: center;
+        }
+        .execution-response {
+            padding: 20px 0 0 0;
+            text-align: center;
+            font-size: 18px;
+        }
+        .execution-errorMessage {
+            padding: 20px 0 0 0;
+            text-align: center;
+            font-size: 18px;
+        }
+        .footer {
+            width: 980px;
+            margin: 0 auto;
+        }
+        .footer-container {
+            font-size: 18px;
+            text-align: center;
+            padding: 40px 0 0 0;
+        }
+
+        .custom-btn {
+            width: 130px;
+            height: 48px;
+            padding: 10px 25px;
+            border: 2px solid #000;
+            font-weight: 700;
+            font-size: 22px;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+        .btn-3 {
+            line-height: 39px;
+        }
+        .btn-3:hover{
+            background: transparent;
+            color: #000;
+        }
+        .btn-3 span {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .btn-3:before,
+        .btn-3:after {
+            position: absolute;
+            content: "";
+            left: 0;
+            top: 0;
+            background: #000;
+            transition: all 0.3s ease;
+        }
+        .btn-3:before {
+            height: 0%;
+            width: 2px;
+        }
+        .btn-3:after {
+            width: 0%;
+            height: 2px;
+        }
+        .btn-3:hover:before {
+            height: 100%;
+        }
+        .btn-3:hover:after {
+            width: 100%;
+        }
+        .btn-3 span:before,
+        .btn-3 span:after {
+            position: absolute;
+            content: "";
+            right: 0;
+            bottom: 0;
+            background: #000;
+            transition: all 0.3s ease;
+        }
+        .btn-3 span:before {
+            width: 2px;
+            height: 0%;
+        }
+        .btn-3 span:after {
+            width: 0%;
+            height: 2px;
+        }
+        .btn-3 span:hover:before {
+            height: 100%;
+        }
+        .btn-3 span:hover:after {
+            width: 100%;
+        }
+        .btn-6 {
+            background: #000;
+            color: #fff;
+            line-height: 42px;
+            padding: 0;
+            border: none;
+        }
+        .btn-6 span {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .btn-6:before,
+        .btn-6:after {
+            position: absolute;
+            content: "";
+            height: 0%;
+            width: 2px;
+            background: #000;
+        }
+        .btn-6:before {
+            right: 0;
+            top: 0;
+            transition: all 500ms ease;
+        }
+        .btn-6:after {
+            left: 0;
+            bottom: 0;
+            transition: all 500ms ease;
+        }
+        .btn-6:hover{
+            color: #000;
+            background: transparent;
+        }
+        .btn-6:hover:before {
+            transition: all 500ms ease;
+            height: 100%;
+        }
+        .btn-6:hover:after {
+            transition: all 500ms ease;
+            height: 100%;
+        }
+        .btn-6 span:before,
+        .btn-6 span:after {
+            position: absolute;
+            content: "";
+            background: #000;
+        }
+        .btn-6 span:before {
+            left: 0;
+            top: 0;
+            width: 0%;
+            height: 2px;
+            transition: all 500ms ease;
+        }
+        .btn-6 span:after {
+            right: 0;
+            bottom: 0;
+            width: 0%;
+            height: 2px;
+            transition: all 500ms ease;
+        }
+        .btn-6 span:hover:before {
+            width: 100%;
+        }
+        .btn-6 span:hover:after {
+            width: 100%;
+        }
+        .btn-8 {
+            width: 60px;
+            height: 60px;
+            line-height: 40px;
+            padding: 0;
+            background: transparent;
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            -webkit-perspective: 300px;
+            perspective: 300px;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+        .btn-8:hover{
+            color: #000;
+        }
+        .btn-8:after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: -1;
+            -webkit-transform-origin: center bottom;
+            transform-origin: center bottom;
+            -webkit-transform: rotateX(0);
+            transform: rotateX(0);
+            transition: all 0.3s ease;
+        }
+        .btn-8:hover:after {
+            -webkit-transform: rotateX(-180deg);
+            transform: rotateX(-180deg);
+        }
+
+    </style>
+    <script>
+        startCountdown();
+        // 버튼 그룹의 클래스명
+        var buttonGroupClass = "custom-btn-group";
+
+        function startCountdown() {
+            var countdownElement = document.querySelector(".five-second");
+            countdownElement.innerText = "5 seconds remaining."; // 초기 메시지 설정
+
+            var count = 5;
+            var countdownInterval = setInterval(function () {
+                count--;
+                if (count >= 0) {
+                    countdownElement.innerText = count + " seconds remaining."; // 카운트 다운 텍스트 업데이트
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownElement.innerText = "Countdown completed."; // 카운트 다운 완료 메시지 표시
+                }
+            }, 1000); // 1초마다 업데이트
+        }
+
+        // 버튼 클릭 이벤트 핸들러
+        function handleButtonClick(button) {
+            var buttons = document.getElementsByClassName(buttonGroupClass);
+
+            for (let j = 0; j < buttons.length; j++) {
+                console.log(buttons[j]);
+            }
+            // 모든 버튼 비활성화
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+
+            // 현재 클릭한 버튼만 활성화
+            button.disabled = false;
+
+            // 알림: 버튼을 5초 동안 누르지 말라고 알림
+            alert("Please wait for 5 seconds before pressing the button again.");
+        }
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="header-content">
+                PM Control
+            </div>
+        </div>
+        <div class="pm-container">
+            <div class="pm-content">
+                <form action="/top" method="post" class="form-pm">
+                    <button type="submit" class="custom-btn btn-6 custom-btn-group" onclick="handleButtonClick(this)"><span>Top</span></button>
+                </form>
+                <form action="/middle" method="post" class="form-pm">
+                    <button type="submit" class="custom-btn btn-6 custom-btn-group" onclick="handleButtonClick(this)"><span>Middle</span></button>
+                </form>
+                <form action="/bottom" method="post" class="form-pm">
+                    <button type="submit" class="custom-btn btn-6 custom-btn-group" onclick="handleButtonClick(this)"><span>Bottom</span></button>
+                </form>
+            </div>
+        </div>
+        <div class="bottom-container">
+            <form action="/degree" method="post" class="bottom-form">
+                <input type="text" name="degree" class="btn-3 bottom-input" placeholder="Input degree : 0 ~ 360">
+                <button type="submit" class="custom-btn btn-8 bottom-button custom-btn-group" onclick="handleButtonClick(this)">Send</button>
+            </form>
+        </div>
+        <div class="execution-result">
+            <div class="excution-container">
+                <div class="apm-text">APM Motor Controller Response</div>
+                <div th:text="${response}" class="execution-response"></div>
+                <div th:text="${errorMessage}" class="execution-errorMessage"></div>
+                <div class="five-second"></div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-container">
+                Made by SCH20191539 ILHAN
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
